@@ -3,7 +3,6 @@ mod validation;
 use anyhow::Result;
 use serde::{Deserialize, Serialize};
 use std::{fs, path::PathBuf};
-use structopt::StructOpt;
 
 use crate::cli::Cli;
 use validation::validate_config;
