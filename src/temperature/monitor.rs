@@ -6,16 +6,6 @@ use crate::config::Config;
 
 pub fn get_hdd_temp(device: &str) -> Result<i32> {
     debug!("Attempting to read temperature from {}", device);
-    
-    // First check if smartctl is available
-    let smartctl_check = Command::new("which")
-        .arg("smartctl")
-        .output()
-        .context("Failed to check if smartctl is installed")?;
-
-    if !smartctl_check.status.success() {
-        return Err(anyhow::anyhow!("smartctl not found. Please install smartmontools"));
-    }
 
     // Check if we have permission to read the device
     let output = Command::new("smartctl")
@@ -34,7 +24,6 @@ pub fn get_hdd_temp(device: &str) -> Result<i32> {
 
     let stdout = String::from_utf8_lossy(&output.stdout);
     
-    // Debug output for temperature parsing
     debug!("Raw smartctl output for {}: {}", device, stdout);
 
     // Look for different temperature attribute formats

@@ -34,22 +34,19 @@ impl Default for Config {
 }
 
 impl Config {
-    pub fn load() -> Result<Self> {
-        let cli = Cli::from_args();
+    pub fn load(cli: &Cli) -> Result<Self> {  // Take cli as parameter
         let mut config = if let Some(ref config_path) = cli.config {
             Self::from_file(config_path)?
         } else {
             Config::default()
         };
-
         // Override with CLI arguments
         if !cli.hdds.is_empty() {
-            config.hdds = cli.hdds;
+            config.hdds = cli.hdds.clone();  // Need to clone since we take cli as reference
         }
-        if let Some(pwm_path) = cli.pwm_path {
+        if let Some(pwm_path) = &cli.pwm_path {
             config.fan_control_path = pwm_path.to_string_lossy().to_string();
         }
-
         validate_config(&config)?;
         Ok(config)
     }
