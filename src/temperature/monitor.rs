@@ -1,5 +1,5 @@
 use anyhow::{Context, Result};
-use log::{error, warn, debug};
+use log::{error, warn, debug, info};
 use std::process::Command;
 
 use crate::config::Config;
@@ -51,7 +51,7 @@ pub fn get_hdd_temp(device: &str) -> Result<i32> {
             anyhow::anyhow!("Could not parse temperature for {}", device)
         })?;
 
-    debug!("Successfully read temperature {}°C from {}", temp, device);
+    info!("Successfully read temperature {}°C from {}", temp, device);
     Ok(temp)
 }
 
